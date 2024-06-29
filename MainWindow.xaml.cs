@@ -177,7 +177,7 @@ namespace BG3Translator
                             XElement contentElement = new XElement("content");
                             contentElement.SetAttributeValue("contentuid", dataItem.UUID);
                             contentElement.SetAttributeValue("version", "1");
-                            contentElement.Value = dataItem.OriginText;
+                            contentElement.Value = dataItem.TranslatedText;
 
                             var existingElement = doc.Descendants("content")
                                 .FirstOrDefault(e => e.Attribute("contentuid")?.Value == dataItem.UUID);
@@ -378,12 +378,18 @@ namespace BG3Translator
             }
             else if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.S)
             {
-                SaveXmlFile();
+                if (!IsAnyCellEditing())
+                {
+                    SaveXmlFile();
+                }
             }
             else if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.W)
             {
-                SaveXmlFile();
-                Close();
+                if (!IsAnyCellEditing())
+                {
+                    SaveXmlFile();
+                    Close();
+                }
             }
         }
         private void Search_Click(object sender, RoutedEventArgs e)
@@ -435,6 +441,19 @@ namespace BG3Translator
         {
             SaveXmlFile();
             Close();
+        }
+        private bool IsAnyCellEditing()
+        {
+            foreach (var cell in WorkArea.SelectedCells)
+            {
+                // EditingElementを取得して、それがnullでない場合は編集中と見なす
+                var content = cell.Column.GetCellContent(cell.Item);
+                if (content is TextBox textBox && textBox.IsKeyboardFocused)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
     public class ColumnWidthConverter : IValueConverter

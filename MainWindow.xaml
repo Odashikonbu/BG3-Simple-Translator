@@ -10,7 +10,7 @@
         DragLeave="Window_DragLeave"
         DragOver="Window_DragOver"
         Drop="Window_Drop"
-        Title="BG3Translator" Height="450" Width="800">
+        Title="BG3Translator" Height="600" Width="1024">
 
     <Window.Resources>
         <local:ColumnWidthConverter x:Key="ColumnWidthConverter"/>
