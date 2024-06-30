@@ -275,24 +275,6 @@ namespace BG3Translator
         {
             SaveEditHistory();
 
-            if (e.Column.DisplayIndex == 2)
-            {
-                var editedItem = e.Row.Item as XmlItem;
-                if (editedItem != null)
-                {
-                    var editedValue = (e.EditingElement as TextBox)?.Text;
-
-                    if (editedItem.OriginText != editedValue)
-                    {
-                        e.Row.Background = Brushes.LightGreen;
-                    }
-                    else
-                    {
-                        e.Row.Background = Brushes.Transparent;
-                    }
-                }
-            }
-
         }
         private void SaveEditHistory()
         {
